@@ -8,7 +8,6 @@ function createFeatures(earthquakeData, faultData) {
           radius:  markerSize(feature.properties.mag)
         });
     }
-
     
     // Give each feature a popup describing the place and time of the earthquake
     function onEachEarthquake(feature, layer) {
@@ -16,8 +15,6 @@ function createFeatures(earthquakeData, faultData) {
         "</h3><hr><p>" + new Date(feature.properties.time) + "</p>");
     }
 
-    // Create a GeoJSON layer containing the features array on the earthquakeData object
-    // Run the onEachFeature function once for each piece of data in the array
     const earthquakes = L.geoJSON(earthquakeData, {
         onEachFeature: onEachEarthquake,
         pointToLayer: onEachQuakeLayer
@@ -120,33 +117,33 @@ function createMap(earthquakes, faultLines) {
         accessToken: API_KEY
     });
 
-    // Define a baseMaps object to hold our base layers
+    // Define a baseMaps object
     const baseMaps = {
             "Satellite Map": satelliteMap,
             "Grayscale": grayscaleMap,
             "Outdoors": outdoorMap
     };
 
-    // Create overlay object to hold our overlay layer
+    // Define an overlay object
     const overlayMaps = {
             Earthquakes: earthquakes,
             "Fault Lines": faultLines
     };
 
-    // Create our map, giving it the streetmap and earthquakes layers to display on load
+    // Define a map object
     const myMap = L.map("map", {
             center: [34.05, -118.24],
             zoom: 4,
             layers: [satelliteMap, earthquakes, faultLines]
     });
 
-    // Create a layer control
-    // Pass in our baseMaps and overlayMaps
+    // Pass our map layers into our layer control
     // Add the layer control to the map
     L.control.layers(baseMaps, overlayMaps, {
             collapsed: false
     }).addTo(myMap);
 
+    // Create legend and adds to the map
     const legend = createLegend(earthquakes)
     legend.addTo(myMap);
 
