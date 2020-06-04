@@ -12,7 +12,7 @@ function createFeatures(earthquakeData, faultData) {
     // Give each feature a popup describing the place and time of the earthquake
     function onEachEarthquake(feature, layer) {
         layer.bindPopup("<h3>" + feature.properties.place +
-        "</h3><hr><p>" + new Date(feature.properties.time) + "</p>");
+        "<br>Magnitude: " + feature.properties.mag + "</h3><hr><p>" + new Date(feature.properties.time) + "</p>");
     }
 
     const earthquakes = L.geoJSON(earthquakeData, {
